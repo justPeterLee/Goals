@@ -7,7 +7,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   const testFetch = async () => {
-    axios.get("/api/v1/goal").then(async (response) => {
+    axios.get("/api/v1/").then(async (response) => {
       console.log(response.data);
     });
   };

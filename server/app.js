@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/api/v1", (res, req) => {
+app.get("/api/v1", (req, res) => {
   console.log("test");
   res.send("hello");
 });
