@@ -1,4 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import testReducer from "./test.reducer";
+import goalReducer from "./goal.reducer";
 
-export const rootReducer = combineReducers({ count: testReducer });
+export const rootReducer = combineReducers({
+  count: testReducer,
+  goals: goalReducer,
+});
