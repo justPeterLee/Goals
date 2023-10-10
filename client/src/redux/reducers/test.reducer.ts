@@ -14,6 +14,7 @@ export const test = createSlice({
   reducers: {
     increment: (state, action) => {
       state.value += 1;
+      //   console.log(state);
     },
     decrement: (state, action) => {
       state.value += 1;
