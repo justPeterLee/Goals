@@ -9,7 +9,6 @@ export default function* goalSage() {
 // saga function
 function* fetchGoals(): Generator {
   try {
-    console.log("in sagas");
     const config = {
       headers: { "Content-Type": "application/json" },
     };
