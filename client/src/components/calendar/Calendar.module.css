@@ -1,0 +1,45 @@
+/* day */
+.dayContainer {
+  height: 15vh;
+  width: 15vw;
+  background-color: rgb(240, 240, 240);
+  transition: filter ease 0.2s;
+}
+
+.dayContainer:hover {
+  filter: brightness(0.9);
+}
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.day {
+  margin-left: 0.5rem;
+  margin-top: 0.25rem;
+}
+/* week */
+.weekContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* month */
+.monthContainer {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  gap: 0.5rem;
+
+  width: 90vw;
+  /* height: 70vh; */
+  /* background-color: rgb(100, 100, 100); */
+}
+
+/* calendar */
+/* .calendarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */

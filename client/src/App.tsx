@@ -1,22 +1,24 @@
 import "./App.css";
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "./hook/redux.hook";
+import { Routes, Route } from "react-router-dom";
+// import { useState } from "react";
+// import { useAppDispatch, useAppSelector } from "./hook/redux.hook";
+
+//components
+import Calendar from "./components/calendar/calendar";
 
 function App() {
-  const dispatch = useAppDispatch();
-  const countState: any = useAppSelector((state) => state.count.value);
+  // const dispatch = useAppDispatch();
+  // const countState: any = useAppSelector((state) => state.count.value);
 
-  const [count, setCount] = useState(0);
-  const addCount = () => {
-    dispatch({ type: "FETCH_GOALS" });
-    setCount(countState);
-  };
+  // const [count, setCount] = useState(0);
+  // const addCount = () => {
+  //   dispatch({ type: "FETCH_GOALS" });
+  //   setCount(countState);
+  // };
   return (
-    <>
-      <div className="card">
-        <button onClick={addCount}>{count}</button>
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<Calendar />} />
+    </Routes>
   );
 }
 
