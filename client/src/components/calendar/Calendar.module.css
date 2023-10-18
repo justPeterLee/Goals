@@ -1,6 +1,5 @@
 /* day */
 .dayContainer {
-  height: 15vh;
   width: 15vw;
   background-color: rgb(240, 240, 240);
   transition: filter ease 0.2s;
@@ -20,17 +19,25 @@
 }
 /* week */
 .weekContainer {
+  height: 17vh;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.1rem;
 }
 
+.weekContainer:nth-child(1) {
+  height: 18vh;
+}
+
+.weekContainer:nth-child(5) {
+  height: 18vh;
+}
 /* month */
 .monthContainer {
   display: flex;
   flex-direction: column;
   /* justify-content: center;
   align-items: center; */
-  gap: 0.5rem;
+  gap: 0.1rem;
 
   width: 90vw;
   /* height: 70vh; */

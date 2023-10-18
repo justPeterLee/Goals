@@ -7,9 +7,14 @@ import { useGenerateDate, useDateConvert } from "../../hook/useCalendar.hook";
 export default function Calendar() {
   return (
     <div className={`${styles.calendarContainer} container`}>
+      <CalendarMonth />
       <Month />
     </div>
   );
+}
+
+function CalendarMonth() {
+  return <div className={styles.titleContainer}>month</div>;
 }
 
 function Day(props: {
@@ -115,7 +120,6 @@ function Week(props: { row: number; month: month }) {
 
 function Month() {
   const calenadrContext = useContext(CalendarContext);
-  console.log(calenadrContext!.currentMonth);
   return (
     <div className={styles.monthContainer}>
       {Array.from({ length: 5 }, (_, index) => {
