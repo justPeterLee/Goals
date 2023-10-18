@@ -7,12 +7,15 @@ import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store.ts";
 
 import { Provider } from "react-redux";
+import CalendarContextProvider from "./hook/calendar.context.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <CalendarContextProvider>
+          <App />
+        </CalendarContextProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

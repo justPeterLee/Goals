@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 // import { useAppDispatch, useAppSelector } from "./hook/redux.hook";
 
 //components
-import Calendar from "./components/calendar/calendar";
+import Calendar from "./components/calendar/Calendar";
 
 function App() {
   // const dispatch = useAppDispatch();
