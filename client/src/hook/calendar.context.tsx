@@ -1,10 +1,13 @@
 import { createContext, ReactNode, useState } from "react";
 import { useCalendar } from "./useCalendar.hook";
+import { useNavigate } from "react-router-dom";
+
 interface CalendarContextType {
   resetDay: () => void;
   generateCurrentDate: () => Date;
   generateDate: (index: number, state: boolean) => void;
   currentMonth: month;
+  manualMonth: (manual: { month: string; year: string }) => void;
 }
 
 interface month {
@@ -23,7 +26,26 @@ export default function CalendarContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const currentMonth = useCalendar();
+  const navigate = useNavigate();
+  const [currentMonth, setCurrentMonth] = useState(useCalendar(undefined));
+
+  function manualMonth(manual: { month: string; year: string }) {
+    if (manual.month && manual.year) {
+      if (parseInt(manual.month) > 12) {
+        navigate(`/calendar/${manual.year}/12`);
+      } else if (parseInt(manual.month) < 1) {
+        navigate(`/calendar/${manual.year}/1`);
+      } else {
+        console.log("now");
+        const newMonth = useCalendar(manual);
+        setCurrentMonth(newMonth);
+      }
+    } else {
+      setCurrentMonth(useCalendar(undefined));
+      console.log("rerender");
+    }
+  }
+  //   const currentMonth = useCalendar(undefined);
 
   let day = 1;
   function generateCurrentDate() {
@@ -42,7 +64,13 @@ export default function CalendarContextProvider({
   }
   return (
     <CalendarContext.Provider
-      value={{ resetDay, generateCurrentDate, generateDate, currentMonth }}
+      value={{
+        resetDay,
+        generateCurrentDate,
+        generateDate,
+        currentMonth,
+        manualMonth,
+      }}
     >
       {children}
     </CalendarContext.Provider>

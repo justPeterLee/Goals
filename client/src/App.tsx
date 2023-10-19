@@ -18,6 +18,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Calendar />} />
+      <Route path="/calendar" element={<Calendar />}>
+        <Route path=":year/:month" element={<Calendar />} />
+      </Route>
     </Routes>
   );
 }

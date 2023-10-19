@@ -1,5 +1,7 @@
-export function useCalendar() {
-  let date = new Date();
+export function useCalendar(
+  manual: { month: string; year: string } | undefined
+) {
+  let date = manual ? new Date(`${manual.month} 1 ${manual.year}`) : new Date();
   let month = date.getUTCMonth();
   let day = date.getUTCDate();
   let year = date.getUTCFullYear();

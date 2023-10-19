@@ -4,9 +4,42 @@ import { useContext } from "react";
 import { CalendarContext } from "../../hook/calendar.context";
 import { useGenerateDate, useDateConvert } from "../../hook/useCalendar.hook";
 
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 export default function Calendar() {
+  const navigate = useNavigate();
+  const calenadarContext = useContext(CalendarContext);
+  const params = useParams();
+
+  const proxyParms: { month: string; year: string } = {
+    month: params.month || "",
+    year: params.year || "",
+  };
+
+  // console.log("new page");
+  useEffect(() => {
+    console.log(proxyParms);
+    calenadarContext?.manualMonth(proxyParms);
+    // setMonth(calenadarContext!.currentMonth);
+  }, [navigate]);
+
   return (
     <div className={`${styles.calendarContainer} container`}>
+      <button
+        onClick={() => {
+          navigate(`/calendar/2023/${parseInt(proxyParms.month) - 1}`);
+        }}
+      >
+        prev
+      </button>
+      <button
+        onClick={() => {
+          navigate(`/calendar/2023/${parseInt(proxyParms.month) + 1}`);
+        }}
+      >
+        next
+      </button>
       <CalendarMonth />
       <Month />
     </div>
@@ -33,7 +66,7 @@ function Day(props: {
 
   const dateConvert = useDateConvert(date);
 
-  console.log(dateConvert);
+  // console.log(dateConvert);
   return (
     <div className={styles.dayContainer}>
       <div className={styles.dayTitle}>
