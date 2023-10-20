@@ -11,11 +11,13 @@
 .titleContainer {
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
 .day {
-  margin-left: 0.5rem;
-  margin-top: 0.25rem;
+  top: 4px;
+  left: 8px;
+  position: absolute;
 }
 /* week */
 .weekContainer {

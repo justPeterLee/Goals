@@ -122,13 +122,12 @@ export function useGenerateDate(
   month: number,
   year: number
 ) {
+  if (dayPos === "after") {
+  }
   const trueMonth = month + 1 <= 12 ? month + 1 : 1;
   switch (true) {
     case dayPos === "after":
       const followingMonth = trueMonth + 1 <= 12 ? trueMonth + 1 : 0;
-
-      // console.log(followingMonth);
-      // console.log(month);
       return new Date(`${followingMonth} ${dayOffset} ${year}`);
     case dayPos === "before":
       const previousMonth = trueMonth - 1 >= 0 ? trueMonth - 1 : 11;

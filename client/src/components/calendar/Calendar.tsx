@@ -1,15 +1,14 @@
 import styles from "./Calendar.module.css";
 
-import { useContext } from "react";
 import { CalendarContext } from "../../hook/calendar.context";
 import { useGenerateDate, useDateConvert } from "../../hook/useCalendar.hook";
 
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useContext } from "react";
 
 export default function Calendar() {
-  const navigate = useNavigate();
   const calenadarContext = useContext(CalendarContext);
+  const navigate = useNavigate();
   const params = useParams();
 
   const proxyParms: { month: string; year: string } = {
@@ -17,37 +16,39 @@ export default function Calendar() {
     year: params.year || "",
   };
 
-  // console.log("new page");
   useEffect(() => {
-    console.log(proxyParms);
     calenadarContext?.manualMonth(proxyParms);
-    // setMonth(calenadarContext!.currentMonth);
   }, [navigate]);
 
   return (
     <div className={`${styles.calendarContainer} container`}>
       <button
         onClick={() => {
-          navigate(`/calendar/2023/${parseInt(proxyParms.month) - 1}`);
+          navigate(
+            `/calendar/2023/${calenadarContext!.currentMonth.current.month}`
+          );
         }}
       >
         prev
       </button>
       <button
         onClick={() => {
-          navigate(`/calendar/2023/${parseInt(proxyParms.month) + 1}`);
+          navigate(
+            `/calendar/2023/${calenadarContext!.currentMonth.current.month + 2}`
+          );
         }}
       >
         next
       </button>
-      <CalendarMonth />
+      <CalendarMonth month={calenadarContext!.currentMonth.month.name} />
       <Month />
     </div>
   );
 }
 
-function CalendarMonth() {
-  return <div className={styles.titleContainer}>month</div>;
+function CalendarMonth(props: { month: string }) {
+  const { month } = props;
+  return <div className={styles.titleContainer}>{month}</div>;
 }
 
 function Day(props: {
@@ -56,26 +57,36 @@ function Day(props: {
     index: number;
     row: number;
   };
-  date: Date | any;
+  date: Date;
   month: string;
   dayPos: string;
   dayOffset: number;
 }) {
-  const { day, index, row } = props.position;
+  // const { day, index, row } = props.position;
   const { dayPos, dayOffset, date, month } = props;
 
-  const dateConvert = useDateConvert(date);
+  // const dateConvert = useDateConvert(date);
 
   // console.log(dateConvert);
+
   return (
-    <div className={styles.dayContainer}>
+    <div
+      className={styles.dayContainer}
+      style={
+        dayPos !== "current" ? { backgroundColor: "rgb(220,220,220)" } : {}
+      }
+    >
       <div className={styles.dayTitle}>
         <span className={`${styles.titleContainer}`}>
-          <p className={styles.day}>{dayOffset}</p>
-          <p className={styles.title}>
-            {/* {dayPos} {dayOffset} */}
-            {`${day.text} ${month} ${dayOffset}, 2023`}
-          </p>
+          <Link
+            className={styles.day}
+            to={`/agenda/${date.getFullYear()}/${
+              date.getMonth() + 1
+            }/${date.getDate()} `}
+          >
+            {dayOffset}
+          </Link>
+          <p className={styles.title}></p>
         </span>
       </div>
       <div className={styles.dayBody}></div>
@@ -94,7 +105,6 @@ interface month {
 }
 function Week(props: { row: number; month: month }) {
   const { row, month } = props;
-  const calenadrContext = useContext(CalendarContext);
 
   const week = [
     "Sunday",
@@ -112,14 +122,21 @@ function Week(props: { row: number; month: month }) {
         let trueIndex = index + row * 7;
         let dayPos = "current";
         let dayOffset = 0;
+        let trueMonth = month.month.name;
+
+        // console.log(month.current.month - 1);
         if (trueIndex < month.start.number) {
           current = false;
           dayPos = "before";
-          dayOffset = month.start.number - trueIndex;
+          dayOffset =
+            month.previous.days - (month.start.number - trueIndex) + 1;
+
+          trueMonth = month.previous.name;
         } else if (trueIndex > month.end.number) {
           current = false;
           dayPos = "after";
           dayOffset = trueIndex - month.end.number;
+          trueMonth = month.following.name;
         } else {
           current = true;
           dayPos = "current";
@@ -141,7 +158,7 @@ function Week(props: { row: number; month: month }) {
               row: row,
             }}
             date={date}
-            month={month.month.name}
+            month={trueMonth}
             dayPos={dayPos}
             dayOffset={dayOffset}
           />
