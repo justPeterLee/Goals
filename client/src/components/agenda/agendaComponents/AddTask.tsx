@@ -23,14 +23,26 @@ export function AddTaskModal({
     return null;
   }
   return ReactDOM.createPortal(
-    <Backdrop>
-      <div className={styles.addTaskModalContainer}></div>
+    <Backdrop close={onClose}>
+      <div
+        className={styles.addTaskModalContainer}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        modal
+      </div>
     </Backdrop>,
     portalRoot
   );
 }
 
-function Backdrop(props: { children: ReactNode }) {
+function Backdrop(props: { children: ReactNode; close: () => void }) {
   // makes child element only clickable
-  return <div className="backdrop">{props.children}</div>;
+
+  return (
+    <div className="backdrop" onClick={props.close}>
+      {props.children}
+    </div>
+  );
 }
