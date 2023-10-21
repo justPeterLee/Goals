@@ -16,8 +16,6 @@ button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
@@ -43,8 +41,46 @@ p {
   height: 100%;
   /* background-color: rgb(200, 200, 200); */
   z-index: 100;
-  position: absolute;
+  position: fixed;
 
   top: 50%;
   transform: translateY(-50%);
+}
+
+.input-validation {
+  border: none;
+  border-bottom: solid 0.9px black;
+  height: 2rem;
+  width: 20rem;
+  background-color: transparent;
+  outline: none;
+
+  transition: border ease 0.3s;
+
+  font-size: 20px;
+}
+
+.input-validation:focus {
+  border-bottom: solid 1px blue;
+}
+
+.textarea-task {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  resize: none;
+  width: 20rem;
+  height: 5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(240, 240, 240);
+  outline: none;
+}
+
+.textarea-task:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.button-task {
+  background-color: #1b66c9;
+  color: white;
+  font-weight: 400;
 }

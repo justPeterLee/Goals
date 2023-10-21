@@ -30,7 +30,16 @@ export function AddTaskModal({
           e.stopPropagation();
         }}
       >
-        modal
+        <InputValidation />
+        <textarea className="textarea-task " placeholder="add description" />
+        <button
+          className="button-task"
+          onClick={() => {
+            onClose();
+          }}
+        >
+          Save
+        </button>
       </div>
     </Backdrop>,
     portalRoot
@@ -44,5 +53,13 @@ function Backdrop(props: { children: ReactNode; close: () => void }) {
     <div className="backdrop" onClick={props.close}>
       {props.children}
     </div>
+  );
+}
+
+function InputValidation() {
+  return (
+    <>
+      <input className="input-validation" placeholder="add task"></input>
+    </>
   );
 }

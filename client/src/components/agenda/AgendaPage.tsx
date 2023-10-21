@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 
+import styles from "./Agenda.module.css";
 import { CalendarContext } from "../../hook/calendar.context";
 import { TimeBlock } from "./agendaComponents/TimeBlock";
 
@@ -8,7 +9,7 @@ export default function AgendaPage() {
   const navigate = useNavigate();
   const params = useParams();
   const calendarContext = useContext(CalendarContext);
-
+  const agenda = calendarContext!.currentAgenda;
   const proxyParams = {
     date: params.day || "",
     month: params.month || "",
@@ -21,7 +22,10 @@ export default function AgendaPage() {
 
   return (
     <>
-      <p>{calendarContext?.currentAgenda.full.month}</p>
+      <p className={styles.AgendaTitle}>
+        {agenda.full.day} - {agenda.full.month} {agenda.fullNum.date},{" "}
+        {agenda.fullNum.year}
+      </p>
       <TimeBlock />
     </>
   );
