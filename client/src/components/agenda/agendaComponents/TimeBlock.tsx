@@ -1,4 +1,8 @@
 import styles from "../Agenda.module.css";
+import { AddTaskModal } from "./AddTask";
+
+import { useState } from "react";
+import ReactDOM from "react-dom";
 
 export function TimeBlock() {
   // time (12 - 12);
@@ -9,29 +13,42 @@ export function TimeBlock() {
   //      - importance
   //      - finished
 
+  console.log("rerender");
+  const portalRoot = document.getElementById("portal-modal");
+
+  if (!portalRoot) {
+    return <div>Portal root not found!</div>;
+  }
+
+  const [selectedModal, setSelectedModal] = useState(-1);
+  const [toggleModal, setToggleModal] = useState(false);
+  const openModal = () => {
+    console.log("toggle");
+    setToggleModal(() => true);
+  };
+
+  const closeModal = () => {
+    setToggleModal(() => false);
+  };
   return (
     <div className={styles.timeBlockContainer}>
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
-      <Block />
+      {Array.from({ length: 12 }, (_, index) => {
+        return <Block key={index} isOpen={selectedModal} onOpen={openModal} />;
+      })}
+
+      <AddTaskModal isOpen={toggleModal} onClose={closeModal} />
     </div>
   );
 }
 
-function Block() {
+function Block(props: { isOpen: number; onOpen: () => void }) {
   // time lable
   // on click
 
+  const [toggleTask, setToggle] = useState(false);
+
   const addTask = () => {
-    console.log("add task");
+    props.onOpen();
   };
   return (
     <div className={styles.blockContainer} onClick={addTask}>
