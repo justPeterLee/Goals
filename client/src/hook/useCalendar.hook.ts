@@ -136,3 +136,55 @@ export function useGenerateDate(
       return new Date(`${trueMonth} ${dayOffset} ${year}`);
   }
 }
+
+// agenda
+
+export function useAgenda(
+  manual: { date: string; month: string; year: string } | undefined
+) {
+  // {year, month, day}
+  /**
+   * {
+   *    full: {day, date, month, year}
+   *    fullNum: {day, date, month, year}
+   *    month: {useCalendar()}
+   * }
+   *  */
+
+  const newDate = manual
+    ? new Date(`${manual.month} ${manual.date} ${manual.year}`)
+    : new Date();
+
+  const proxDate = newDate.getDate();
+  const proxDay = newDate.getDay();
+  const proxMonth = newDate.getMonth() + 1;
+  const proxYear = newDate.getFullYear();
+
+  const monthData = useCalendar({
+    month: proxMonth.toString(),
+    year: proxYear.toString(),
+  });
+
+  const dayData = dayConverter(proxDay);
+
+  const fullNumData = {
+    day: proxDay,
+    date: proxDate,
+    month: proxMonth,
+    year: proxYear,
+  };
+
+  const fullData = {
+    day: dayData,
+    date: proxDate,
+    month: monthData.month.name,
+    year: proxYear,
+  };
+
+  return {
+    month: { ...monthData },
+    date: newDate,
+    full: fullData,
+    fullNum: fullNumData,
+  };
+}

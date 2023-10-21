@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { useCalendar } from "./useCalendar.hook";
+import { useCalendar, useAgenda } from "./useCalendar.hook";
 import { useNavigate } from "react-router-dom";
 
 interface CalendarContextType {
@@ -7,6 +7,8 @@ interface CalendarContextType {
   generateCurrentDate: () => Date;
   currentMonth: month;
   manualMonth: (manual: { month: string; year: string }) => void;
+  manualAgenda: (manual: { date: string; month: string; year: string }) => void;
+  currentAgenda: agenda;
 }
 
 interface month {
@@ -18,6 +20,12 @@ interface month {
   following: { name: string; days: number };
 }
 
+interface agenda {
+  month: month;
+  date: Date;
+  full: { day: string; date: number; month: string; year: number };
+  fullNum: { day: number; date: number; month: number; year: number };
+}
 export const CalendarContext = createContext<CalendarContextType | null>(null);
 
 export default function CalendarContextProvider({
@@ -58,6 +66,19 @@ export default function CalendarContextProvider({
   function resetDay() {
     day = 1;
   }
+
+  // agenda
+  const [agendaDate, setAgendaDate] = useState(useAgenda(undefined));
+
+  function manualAgenda(manual: { date: string; month: string; year: string }) {
+    if (manual.month && manual.date && manual.year) {
+      const newAgenda = useAgenda(manual);
+      setAgendaDate(newAgenda);
+    } else {
+      setAgendaDate(useAgenda(undefined));
+    }
+  }
+
   return (
     <CalendarContext.Provider
       value={{
@@ -65,6 +86,8 @@ export default function CalendarContextProvider({
         generateCurrentDate,
         currentMonth,
         manualMonth,
+        manualAgenda,
+        currentAgenda: agendaDate,
       }}
     >
       {children}

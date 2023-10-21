@@ -2,7 +2,6 @@ import styles from "../Agenda.module.css";
 import { AddTaskModal } from "./AddTask";
 
 import { useState } from "react";
-import ReactDOM from "react-dom";
 
 export function TimeBlock() {
   // time (12 - 12);
@@ -12,13 +11,6 @@ export function TimeBlock() {
   //      - description
   //      - importance
   //      - finished
-
-  console.log("rerender");
-  const portalRoot = document.getElementById("portal-modal");
-
-  if (!portalRoot) {
-    return <div>Portal root not found!</div>;
-  }
 
   const [selectedModal, setSelectedModal] = useState(-1);
   const [toggleModal, setToggleModal] = useState(false);
