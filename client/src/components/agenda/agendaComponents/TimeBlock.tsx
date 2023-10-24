@@ -16,14 +16,49 @@ export function TimeBlock() {
   const calenadarContext = useContext(CalendarContext);
   const [selectedBlock, setSelectedBlock] = useState(-1);
   const [toggleModal, setToggleModal] = useState(false);
-
-  const openModal = (position: number) => {
+  const [selectedTime, setSelectedTime] = useState({
+    time: { current: "", following: "" },
+    date: calenadarContext?.currentAgenda.date.toDateString(),
+  });
+  const openModal = (
+    position: number,
+    selectedData: { time: string | Date; date: string }
+  ) => {
     console.log(position);
     setToggleModal(() => true);
+    setSelectedBlock(() => position);
+
+    const currentTimeStatus =
+      position <= 11 ? "AM" : position == 24 ? "AM" : "PM";
+    const followingTimeStatus =
+      position === 11
+        ? currentTimeStatus === "AM"
+          ? "PM"
+          : "AM"
+        : position === 23
+        ? currentTimeStatus === "AM"
+          ? "PM"
+          : "AM"
+        : currentTimeStatus;
+
+    const time =
+      typeof selectedData.time === "object"
+        ? selectedData.time.getHours()
+        : parseInt(selectedData.time);
+    const followingTime = time + 1 <= 12 ? (time + 1).toString() : "1";
+
+    setSelectedTime({
+      time: {
+        current: `${time.toString()} ${currentTimeStatus}`,
+        following: `${followingTime} ${followingTimeStatus}`,
+      },
+      date: selectedData.date,
+    });
   };
 
   const closeModal = () => {
     setToggleModal(() => false);
+    setSelectedBlock(-1);
   };
 
   return (
@@ -31,16 +66,14 @@ export function TimeBlock() {
       {Array.from({ length: 25 }, (_, index) => {
         let proxyDate = calenadarContext!.currentAgenda.date;
         let time;
-        let date;
         if (index > 0) {
           proxyDate?.setHours(index);
-          time = format(proxyDate, "h aa");
-          date = format(proxyDate, "EEEE',' LLLL e");
+          time = `${format(proxyDate, "h aa")}`;
         } else {
           proxyDate?.setUTCHours(0);
           time = proxyDate;
         }
-        let timeText = index > 0 ? `${index}` : "date";
+        const date = format(proxyDate, "EEEE',' LLLL e");
         return (
           <Block
             key={index}
@@ -48,34 +81,49 @@ export function TimeBlock() {
             onOpen={openModal}
             position={index}
             time={time}
-            timeText={timeText}
             date={date}
+            selected={selectedBlock}
           />
         );
       })}
 
-      <AddTaskModal isOpen={toggleModal} onClose={closeModal} />
+      <AddTaskModal
+        isOpen={toggleModal}
+        onClose={closeModal}
+        selected={selectedTime}
+      />
     </div>
   );
 }
 
 function Block(props: {
   isOpen: number;
-  onOpen: (position: number) => void;
+  onOpen: (
+    position: number,
+    selectedData: { time: string | Date; date: string }
+  ) => void;
   position: number;
-  time: Date | string | undefined;
-  timeText: string;
-  date: Date | string | undefined;
+  time: string | Date;
+  date: string;
+  selected: number;
 }) {
   // time lable
   // on click
 
   const addTask = () => {
-    props.onOpen(props.position);
+    props.onOpen(props.position, { time: props.time, date: props.date });
     console.log(props.date);
   };
   return (
-    <div className={styles.blockContainer} onClick={addTask}>
+    <div
+      className={styles.blockContainer}
+      onClick={addTask}
+      style={
+        props.selected === props.position
+          ? { backgroundColor: "rgb(240,240,240, .8)" }
+          : {}
+      }
+    >
       <div className={styles.blockTime}>{props.time?.toLocaleString()}</div>
       <Line
         vertical={true}

@@ -5,9 +5,14 @@ import { ReactNode } from "react";
 export function AddTaskModal({
   isOpen,
   onClose,
+  selected,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  selected: {
+    time: { current: string; following: string };
+    date: string | undefined;
+  };
 }) {
   // create backdrop
   // create modal
@@ -22,6 +27,7 @@ export function AddTaskModal({
   if (!isOpen) {
     return null;
   }
+
   return ReactDOM.createPortal(
     <Backdrop close={onClose}>
       <div
@@ -30,12 +36,15 @@ export function AddTaskModal({
           e.stopPropagation();
         }}
       >
+        <div>
+          {selected!.date} {selected.time.current} - {selected.time.following}
+        </div>
         <InputValidation />
         <textarea className="textarea-task " placeholder="add description" />
         <button
           className="button-task"
           onClick={() => {
-            onClose();
+            console.log(selected);
           }}
         >
           Save
