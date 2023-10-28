@@ -2,6 +2,9 @@ import styles from "../Agenda.module.css";
 
 import ReactDOM from "react-dom";
 import { ReactNode } from "react";
+
+import { useDispatch } from "react-redux";
+
 export function AddTaskModal({
   isOpen,
   onClose,
@@ -18,6 +21,8 @@ export function AddTaskModal({
   // create modal
   //  - always at center
   //  - x, save, backdrop
+
+  const dispatch = useDispatch();
 
   const portalRoot = document.getElementById("portal-modal");
 
@@ -44,7 +49,7 @@ export function AddTaskModal({
         <button
           className="button-task"
           onClick={() => {
-            console.log(selected);
+            dispatch({ type: "POST_TASK", payload: { task: 1 } });
           }}
         >
           Save

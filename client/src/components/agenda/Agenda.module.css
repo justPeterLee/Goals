@@ -2,11 +2,15 @@
 .timeBlockContainer {
   display: flex;
   flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
 }
 
 /* block */
 .blockContainer {
   width: 90vw;
+  /* width: 90vw; */
   height: 3.5rem;
   /* background-color: rgb(240, 240, 240); */
   position: relative;
