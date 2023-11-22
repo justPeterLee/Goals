@@ -69,7 +69,12 @@ export function AddTaskModal({
   }
 
   return ReactDOM.createPortal(
-    <Backdrop close={onClose}>
+    <Backdrop
+      close={() => {
+        onClose();
+        setErrorTask({ ...errorTask, title: false });
+      }}
+    >
       <div
         className={styles.addTaskModalContainer}
         onClick={(e) => {

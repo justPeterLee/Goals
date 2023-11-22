@@ -14,7 +14,7 @@ export function TimeBlock() {
   //      - finished
 
   const calenadarContext = useContext(CalendarContext);
-  const [selectedBlock, setSelectedBlock] = useState(-1);
+  const [selectedBlock, setSelectedBlock] = useState(-2);
   const [toggleModal, setToggleModal] = useState(false);
   const [selectedTime, setSelectedTime] = useState({
     time: { current: "", following: "" },
@@ -58,12 +58,17 @@ export function TimeBlock() {
 
   const closeModal = () => {
     setToggleModal(() => false);
-    setSelectedBlock(-1);
+    setSelectedBlock(-2);
   };
 
   return (
     <div className={styles.timeBlockContainer}>
       <div
+        style={
+          selectedBlock === -1
+            ? { backgroundColor: "rgb(240,240,240, .8)" }
+            : {}
+        }
         className={styles.dayBlock}
         onClick={() => openModal(-1, { time: "", date: "" })}
       />
