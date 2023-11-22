@@ -125,7 +125,10 @@ function Block(props: {
           : {}
       }
     >
-      <div className={styles.blockTime}>{props.time?.toLocaleString()}</div>
+      <div className={styles.blockTime}>
+        <p className={styles.blockTimeText}>{props.time.toLocaleString()}</p>
+      </div>
+
       <Line
         vertical={true}
         configure={{

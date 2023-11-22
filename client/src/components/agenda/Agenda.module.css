@@ -24,9 +24,19 @@
   /* background-color: rgb(230, 230, 230); */
 
   display: flex;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   font-size: 14px;
   color: rgb(100, 100, 100);
+
+  position: relative;
+}
+
+.blockTimeText {
+  font-size: 14px;
+  position: absolute;
+  top: -50%;
+  transform: translateY(50%);
+  /* background-color: white; */
 }
 
 .horLine {
