@@ -86,3 +86,9 @@
 .errorTitle {
   border-bottom: 1px solid red;
 }
+
+.dayBlock {
+  /* background-color: antiquewhite; */
+  width: 100%;
+  height: 2.5rem;
+}

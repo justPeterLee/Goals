@@ -63,7 +63,11 @@ export function TimeBlock() {
 
   return (
     <div className={styles.timeBlockContainer}>
-      {Array.from({ length: 25 }, (_, index) => {
+      <div
+        className={styles.dayBlock}
+        onClick={() => openModal(-1, { time: "", date: "" })}
+      />
+      {Array.from({ length: 24 }, (_, index) => {
         let proxyDate = calenadarContext!.currentAgenda.date;
         let time;
         if (index > -10) {
