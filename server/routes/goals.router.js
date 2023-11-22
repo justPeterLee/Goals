@@ -12,4 +12,8 @@ router.get("/", (req, res) => {
   });
 });
 
+router.post("/task", (req, res) => {
+  console.log("in server");
+  res.sendStatus(200);
+});
 module.exports = router;

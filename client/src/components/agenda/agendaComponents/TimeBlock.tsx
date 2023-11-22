@@ -24,7 +24,7 @@ export function TimeBlock() {
     position: number,
     selectedData: { time: string | Date; date: string }
   ) => {
-    console.log(position);
+    // console.log(position);
     setToggleModal(() => true);
     setSelectedBlock(() => position);
 
@@ -67,13 +67,14 @@ export function TimeBlock() {
         let proxyDate = calenadarContext!.currentAgenda.date;
         let time;
         if (index > 0) {
-          proxyDate?.setHours(index);
+          proxyDate.setHours(index);
           time = `${format(proxyDate, "h aa")}`;
         } else {
           proxyDate?.setUTCHours(0);
           time = proxyDate;
         }
         const date = format(proxyDate, "EEEE',' LLLL e");
+        // console.log(proxyDate);
         return (
           <Block
             key={index}

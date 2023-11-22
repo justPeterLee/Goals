@@ -7,12 +7,13 @@ export default function* goalSage() {
   yield takeLatest("POST_TASK", postGoal);
 }
 
+const config = {
+  headers: { "Content-Type": "application/json" },
+};
+
 // saga function
 function* fetchGoals(): Generator {
   try {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
     const goalRes: any = yield axios.get("/api/v1/goal", config);
     yield put({ type: "SET_GOALS", payload: goalRes.data });
   } catch (err) {
@@ -23,6 +24,7 @@ function* fetchGoals(): Generator {
 function* postGoal({ payload }: any): Generator {
   try {
     console.log("creating task,saga", payload);
+    const taskRes: any = yield axios.post("/api/v1/goal/task");
     yield put({ type: "SET_TASK", payload: "testing" });
   } catch (err) {
     console.log(err);

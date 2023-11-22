@@ -67,3 +67,7 @@
   flex-direction: column;
   gap: 2rem;
 }
+
+.errorTitle {
+  border-bottom: 1px solid red;
+}
