@@ -37,27 +37,40 @@ export function AddTaskModal({
   });
   const portalRoot = document.getElementById("portal-modal");
 
-  const saveTask = () => {
+  const inputValidation = () => {
     const proxyTask = taskValue;
     const proxyErrorTask = errorTask;
-    const taskKey = Object.keys(taskValue);
+    const taskKey = Object.keys(errorTask);
+
+    const error = { isValid: true, error: {} };
 
     taskKey.forEach((value: string) => {
       if (
         proxyTask[value as keyof typeof proxyTask].replace(/\s+/g, "") === ""
       ) {
         proxyErrorTask[value as keyof typeof proxyErrorTask] = true;
+        error.isValid = false;
+        error.error = {
+          ...error.error,
+          [value]: proxyTask[value as keyof typeof proxyTask],
+        };
       } else {
         proxyErrorTask[value as keyof typeof proxyErrorTask] = false;
       }
     });
-
     setErrorTask({ ...proxyErrorTask });
 
-    console.log(errorTask);
-    console.log(selected);
+    return error;
+  };
 
-    dispatch({ type: "POST_TASK", payload: { task: 1 } });
+  const saveTask = () => {
+    const isError = inputValidation();
+    console.log(isError);
+    if (isError.isValid) {
+      dispatch({ type: "POST_TASK", payload: { task: 1 } });
+    } else {
+      console.log("input error");
+    }
   };
 
   if (!portalRoot) {
