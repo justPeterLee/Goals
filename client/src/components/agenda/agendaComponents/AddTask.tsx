@@ -67,7 +67,15 @@ export function AddTaskModal({
     const isError = inputValidation();
     console.log(isError);
     if (isError.isValid) {
-      dispatch({ type: "POST_TASK", payload: { task: 1 } });
+      const date = agenda.date;
+      date.setHours(selected);
+      const task_data = {
+        task: taskValue.title,
+        description: taskValue.description,
+        date,
+        index: -1,
+      };
+      dispatch({ type: "POST_TASK", payload: { task_data } });
     } else {
       console.log("input error");
     }
