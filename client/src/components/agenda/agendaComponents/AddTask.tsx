@@ -10,13 +10,12 @@ export function AddTaskModal({
   isOpen,
   onClose,
   selected,
+  selectedTime,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  selected: {
-    time: { current: string; following: string };
-    date: string | undefined;
-  };
+  selected: number;
+  selectedTime: { current: string; following: string };
 }) {
   // create backdrop
   // create modal
@@ -82,9 +81,16 @@ export function AddTaskModal({
         }}
       >
         <div>
-          {errorTask.title ? <p>true</p> : <p>false</p>}
-          {agenda.full.day}, {agenda.full.month} {agenda.full.date}{" "}
-          {selected.time.current} - {selected.time.following}
+          <p>
+            {agenda.full.day}, {agenda.full.month} {agenda.full.date}
+          </p>
+          {selectedTime.current ? (
+            <p>
+              {selectedTime.current} - {selectedTime.following}
+            </p>
+          ) : (
+            <></>
+          )}
         </div>
 
         <input

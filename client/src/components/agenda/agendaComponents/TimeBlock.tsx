@@ -16,43 +16,25 @@ export function TimeBlock() {
   const calenadarContext = useContext(CalendarContext);
   const [selectedBlock, setSelectedBlock] = useState(-2);
   const [toggleModal, setToggleModal] = useState(false);
+
   const [selectedTime, setSelectedTime] = useState({
-    time: { current: "", following: "" },
-    date: calenadarContext?.currentAgenda.date.toDateString(),
+    current: "",
+    following: "",
   });
-  const openModal = (
-    position: number,
-    selectedData: { time: string | Date; date: string }
-  ) => {
+
+  const openModal = (position: number) => {
     // console.log(position);
     setToggleModal(() => true);
     setSelectedBlock(() => position);
-
-    const currentTimeStatus =
-      position <= 11 ? "AM" : position == 24 ? "AM" : "PM";
-    const followingTimeStatus =
-      position === 11
-        ? currentTimeStatus === "AM"
-          ? "PM"
-          : "AM"
-        : position === 23
-        ? currentTimeStatus === "AM"
-          ? "PM"
-          : "AM"
-        : currentTimeStatus;
-
-    const time =
-      typeof selectedData.time === "object"
-        ? selectedData.time.getHours()
-        : parseInt(selectedData.time);
-    const followingTime = time + 1 <= 12 ? (time + 1).toString() : "1";
+    const proxyTime = calenadarContext!.currentAgenda.date;
+    const curTime =
+      position == -1 ? "" : format(proxyTime.setHours(position), "h:mmaa");
+    const folTime =
+      position == -1 ? "" : format(proxyTime.setHours(position + 1), "h:mmaa");
 
     setSelectedTime({
-      time: {
-        current: `${time.toString()} ${currentTimeStatus}`,
-        following: `${followingTime} ${followingTimeStatus}`,
-      },
-      date: selectedData.date,
+      current: curTime.toLocaleLowerCase(),
+      following: folTime.toLocaleLowerCase(),
     });
   };
 
@@ -70,7 +52,7 @@ export function TimeBlock() {
             : {}
         }
         className={styles.dayBlock}
-        onClick={() => openModal(-1, { time: "", date: "" })}
+        onClick={() => openModal(-1)}
       />
       {Array.from({ length: 24 }, (_, index) => {
         let proxyDate = calenadarContext!.currentAgenda.date;
@@ -100,7 +82,8 @@ export function TimeBlock() {
       <AddTaskModal
         isOpen={toggleModal}
         onClose={closeModal}
-        selected={selectedTime}
+        selected={selectedBlock}
+        selectedTime={selectedTime}
       />
     </div>
   );
@@ -108,10 +91,7 @@ export function TimeBlock() {
 
 function Block(props: {
   isOpen: number;
-  onOpen: (
-    position: number,
-    selectedData: { time: string | Date; date: string }
-  ) => void;
+  onOpen: (position: number) => void;
   position: number;
   time: string | Date;
   date: string;
@@ -121,8 +101,7 @@ function Block(props: {
   // on click
 
   const addTask = () => {
-    props.onOpen(props.position, { time: props.time, date: props.date });
-    console.log(props.date);
+    props.onOpen(props.position);
   };
   return (
     <div
