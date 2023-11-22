@@ -10,7 +10,6 @@ export default function AgendaPage() {
   const params = useParams();
   const calendarContext = useContext(CalendarContext);
   const agenda = calendarContext!.currentAgenda;
-  console.log(agenda);
   const proxyParams = {
     date: params.day || "",
     month: params.month || "",
