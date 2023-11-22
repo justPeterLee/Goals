@@ -66,7 +66,7 @@ export function TimeBlock() {
       {Array.from({ length: 25 }, (_, index) => {
         let proxyDate = calenadarContext!.currentAgenda.date;
         let time;
-        if (index > 0) {
+        if (index > -10) {
           proxyDate.setHours(index);
           time = `${format(proxyDate, "h aa")}`;
         } else {
@@ -126,19 +126,21 @@ function Block(props: {
       }
     >
       <div className={styles.blockTime}>
-        <p className={styles.blockTimeText}>{props.time.toLocaleString()}</p>
+        <span className={styles.blockTimeText}>
+          {props.time.toLocaleString()}
+        </span>
       </div>
 
+      <Line vertical={false} />
       <Line
         vertical={true}
         configure={{
-          height: "1rem",
+          height: "3.5rem",
           bottom: "-.5rem",
-          left: "5rem",
+          left: "4rem",
           backgroundColor: "rgb(200,200,200)",
         }}
       />
-      <Line vertical={false} />
     </div>
   );
 }

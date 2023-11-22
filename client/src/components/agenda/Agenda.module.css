@@ -34,9 +34,11 @@
 .blockTimeText {
   font-size: 14px;
   position: absolute;
-  top: -50%;
-  transform: translateY(50%);
-  /* background-color: white; */
+  top: 0%;
+  transform: translateY(-55.5%);
+  background-color: white;
+  width: 50px;
+  z-index: 100;
 }
 
 .horLine {
@@ -44,7 +46,8 @@
   width: 100%;
   height: 0.9px;
   background-color: rgb(220, 220, 220);
-  bottom: 0;
+  /* bottom: 0; */
+  top: 0;
 }
 
 .verLine {
@@ -52,7 +55,9 @@
   width: 0.9px;
   height: 100%;
   background-color: rgb(220, 220, 220);
-  bottom: 0;
+  top: 0;
+  transform: translateY(-50%);
+  /* bottom: 0; */
 }
 
 .addTaskModalContainer {
