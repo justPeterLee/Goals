@@ -65,17 +65,33 @@ export function AddTaskModal({
 
   const saveTask = () => {
     const isError = inputValidation();
-    console.log(isError);
     if (isError.isValid) {
-      const date = agenda.date;
-      date.setHours(selected);
+      const date = new Date(agenda.date);
+
+      if (selected === -1) {
+        date.setHours(0);
+      } else {
+        date.setHours(selected);
+      }
+      // console.log(date);
+      // console.log(agenda);
+
       const task_data = {
         task: taskValue.title,
         description: taskValue.description,
-        date,
+
+        date: date,
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        day: date.getDate(),
+        time: date.getHours(),
+
         index: -1,
       };
-      dispatch({ type: "POST_TASK", payload: { task_data } });
+
+      console.log(task_data);
+
+      dispatch({ type: "POST_TASK", payload: task_data });
     } else {
       console.log("input error");
     }

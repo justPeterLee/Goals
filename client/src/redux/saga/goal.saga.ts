@@ -23,8 +23,7 @@ function* fetchGoals(): Generator {
 
 function* postGoal({ payload }: any): Generator {
   try {
-    console.log("creating task,saga", payload);
-    const taskRes: any = yield axios.post("/api/v1/goal/task");
+    const taskRes: any = yield axios.post("/api/v1/goal/task", payload);
     yield put({ type: "SET_TASK", payload: "testing" });
   } catch (err) {
     console.log(err);

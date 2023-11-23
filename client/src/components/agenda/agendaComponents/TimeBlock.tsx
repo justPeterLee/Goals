@@ -26,7 +26,7 @@ export function TimeBlock() {
     // console.log(position);
     setToggleModal(() => true);
     setSelectedBlock(() => position);
-    const proxyTime = calenadarContext!.currentAgenda.date;
+    const proxyTime = new Date(calenadarContext!.currentAgenda.date);
     const curTime =
       position == -1 ? "" : format(proxyTime.setHours(position), "h:mmaa");
     const folTime =

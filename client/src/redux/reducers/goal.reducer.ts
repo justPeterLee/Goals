@@ -21,7 +21,7 @@ function task(state: any = [], action: action) {
   switch (action.type) {
     case "SET_TASK":
       if (action.payload) {
-        console.log("redux test");
+        // console.log("redux test");
         return action.payload;
       }
       return state;
