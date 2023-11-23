@@ -80,11 +80,10 @@ export function AddTaskModal({
         task: taskValue.title,
         description: taskValue.description,
 
-        date: date,
+        date: date.toISOString(),
         year: date.getFullYear(),
         month: date.getMonth(),
         day: date.getDate(),
-        time: date.getHours(),
 
         index: -1,
       };
