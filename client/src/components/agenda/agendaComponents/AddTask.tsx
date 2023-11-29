@@ -91,9 +91,19 @@ export function AddTaskModal({
       console.log(task_data);
 
       dispatch({ type: "POST_TASK", payload: task_data });
+
+      clearTask();
+      onClose();
     } else {
       console.log("input error");
     }
+  };
+
+  const clearTask = () => {
+    setTaskValue({
+      title: "",
+      description: "",
+    });
   };
 
   if (!portalRoot) {
@@ -108,6 +118,7 @@ export function AddTaskModal({
       close={() => {
         onClose();
         setErrorTask({ ...errorTask, title: false });
+        clearTask();
       }}
     >
       <div
