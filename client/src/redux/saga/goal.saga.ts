@@ -15,7 +15,10 @@ const config = {
 function* fetchGoals({ payload }: any): Generator {
   try {
     console.log(payload);
-    const goalRes: any = yield axios.get("/api/v1/goal", config);
+    const goalRes: any = yield axios.get(
+      `/api/v1/goal/${payload.year}-${payload.month}-${payload.date}`,
+      config
+    );
     yield put({ type: "SET_GOALS", payload: goalRes.data });
     console.log("get task saga");
   } catch (err) {

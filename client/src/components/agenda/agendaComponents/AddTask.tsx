@@ -91,7 +91,13 @@ export function AddTaskModal({
       console.log(task_data);
 
       dispatch({ type: "POST_TASK", payload: task_data });
-
+      dispatch({
+        type: "GET_TASK",
+        payload: {
+          ...agenda.fullNum,
+          fullDate: agenda.date,
+        },
+      });
       clearTask();
       onClose();
     } else {

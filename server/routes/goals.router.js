@@ -3,10 +3,12 @@ const pool = require("../modules/pool");
 const router = express.Router();
 require("dotenv").config();
 
-router.get("/", (req, res) => {
-  const query = "SELECT * FROM agenda;";
+router.get("/:date", (req, res) => {
+  console.log(req.params);
+  // const date = {}
+  const query = "SELECT * FROM agenda WHERE DATE(date) = $1;";
 
-  pool.query(query).then((result) => {
+  pool.query(query, [req.params.date]).then((result) => {
     console.log("get task server ", result.rows);
     res.send(result.rows);
   });
