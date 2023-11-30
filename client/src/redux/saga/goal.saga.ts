@@ -12,8 +12,9 @@ const config = {
 };
 
 // saga function
-function* fetchGoals(): Generator {
+function* fetchGoals({ payload }: any): Generator {
   try {
+    console.log(payload);
     const goalRes: any = yield axios.get("/api/v1/goal", config);
     yield put({ type: "SET_GOALS", payload: goalRes.data });
     console.log("get task saga");
@@ -24,7 +25,7 @@ function* fetchGoals(): Generator {
 
 function* postGoal({ payload }: any): Generator {
   try {
-    const taskRes: any = yield axios.post("/api/v1/goal/task", payload);
+    yield axios.post("/api/v1/goal/task", payload);
     yield put({ type: "SET_TASK", payload: "testing" });
   } catch (err) {
     console.log(err);

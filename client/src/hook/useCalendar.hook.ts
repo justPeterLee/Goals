@@ -150,10 +150,12 @@ export function useAgenda(
    *    month: {useCalendar()}
    * }
    *  */
-
+  // console.log(manual);
   const newDate = manual
     ? new Date(`${manual.month} ${manual.date} ${manual.year}`)
     : new Date();
+
+  // newDate.setHours(0, 0, 0, 0);
 
   const proxDate = newDate.getDate();
   const proxDay = newDate.getDay();
