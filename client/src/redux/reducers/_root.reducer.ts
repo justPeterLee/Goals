@@ -4,5 +4,5 @@ import goalReducer from "./goal.reducer";
 
 export const rootReducer = combineReducers({
   count: testReducer,
-  goals: goalReducer,
+  agenda: goalReducer,
 });

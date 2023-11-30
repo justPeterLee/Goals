@@ -5,10 +5,15 @@ interface action {
   type: string;
   payload: any;
 }
-function goals(state: any = [], action: { type: string; payload: any }) {
+
+function agenda(
+  state: null | any[] = null,
+  action: { type: string; payload: any }
+) {
   switch (action.type) {
     case "SET_GOALS":
       if (action.payload) {
+        console.log("get task redux");
         return action.payload;
       }
       return state;
@@ -17,7 +22,7 @@ function goals(state: any = [], action: { type: string; payload: any }) {
   }
 }
 
-function task(state: any = [], action: action) {
+function setTask(state: any = [], action: action) {
   switch (action.type) {
     case "SET_TASK":
       if (action.payload) {
@@ -30,6 +35,6 @@ function task(state: any = [], action: action) {
   }
 }
 export default combineReducers({
-  goals,
-  task,
+  agenda,
+  setTask,
 });

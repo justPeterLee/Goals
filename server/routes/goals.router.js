@@ -4,16 +4,16 @@ const router = express.Router();
 require("dotenv").config();
 
 router.get("/", (req, res) => {
-  const query = "SELECT * FROM goals;";
+  const query = "SELECT * FROM agenda;";
 
   pool.query(query).then((result) => {
-    console.log(result.rows);
+    console.log("get task server ", result.rows);
     res.send(result.rows);
   });
 });
 
 router.post("/task", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { task, description, date, year, month, day, index } = req.body;
   const query = `
     INSERT INTO "agenda" (task, description, date, year, month, day, time, index)

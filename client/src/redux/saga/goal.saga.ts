@@ -3,7 +3,7 @@ import { put, takeLatest } from "redux-saga/effects";
 
 // root saga function
 export default function* goalSage() {
-  yield takeLatest("FETCH_GOALS", fetchGoals); // GET all goals
+  yield takeLatest("GET_TASK", fetchGoals); // GET all goals
   yield takeLatest("POST_TASK", postGoal);
 }
 
@@ -16,6 +16,7 @@ function* fetchGoals(): Generator {
   try {
     const goalRes: any = yield axios.get("/api/v1/goal", config);
     yield put({ type: "SET_GOALS", payload: goalRes.data });
+    console.log("get task saga");
   } catch (err) {
     console.log(err);
   }
