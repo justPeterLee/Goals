@@ -1,4 +1,6 @@
 import styles from "../Agenda.module.css";
+import { TaskAgendaNote } from "./TaskNote";
+
 import { AddTaskModal } from "./AddTask";
 import { CalendarContext } from "../../../hook/calendar.context";
 
@@ -129,6 +131,8 @@ function Block(props: {
           backgroundColor: "rgb(200,200,200)",
         }}
       />
+
+      <TaskAgendaNote />
     </div>
   );
 }
