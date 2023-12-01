@@ -22,20 +22,8 @@ export default function AgendaPage() {
   };
 
   useEffect(() => {
-    console.log("effect");
     const newDate: any = calendarContext?.manualAgenda(proxyParams);
-    // if (proxyParams.date && proxyParams.month && proxyParams.year) {
-    //   if (
-    //     proxyParams.date == agenda.fullNum.date.toString() &&
-    //     proxyParams.month === agenda.fullNum.month.toString() &&
-    //     proxyParams.year === agenda.fullNum.year.toString()
-    //   ) {
-    //     console.log("matched");
-    //   }
-    // }
-    console.log(newDate);
 
-    console.log("dispatch");
     dispatch({
       type: "GET_TASK",
       payload: {
@@ -43,7 +31,6 @@ export default function AgendaPage() {
         fullDate: newDate.date,
       },
     });
-    // console.log(reduxTask);
   }, [navigate]);
 
   if (reduxTask.agenda === null) {
@@ -51,6 +38,7 @@ export default function AgendaPage() {
   }
   return (
     <>
+      {/* {JSON.stringify(reduxTask.agenda)} */}
       <p className={styles.AgendaTitle}>
         {agenda.full.day} - {agenda.full.month} {agenda.fullNum.date},{" "}
         {agenda.fullNum.year}

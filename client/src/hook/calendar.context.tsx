@@ -73,10 +73,8 @@ export default function CalendarContextProvider({
   function manualAgenda(manual: { date: string; month: string; year: string }) {
     let newAgenda = useAgenda(undefined);
     if (manual.month && manual.date && manual.year) {
-      console.log("manual");
       newAgenda = useAgenda(manual);
       setAgendaDate(() => newAgenda);
-      console.log(agendaDate);
     } else {
       setAgendaDate(useAgenda(undefined));
     }

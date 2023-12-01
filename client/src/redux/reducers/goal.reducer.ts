@@ -13,8 +13,24 @@ function agenda(
   switch (action.type) {
     case "SET_GOALS":
       if (action.payload) {
-        console.log("get task redux");
-        return action.payload;
+        // console.log("get task redux");
+        const key: any = {};
+
+        action.payload.forEach((element: any) => {
+          const timeKey = new Date(element.date).getHours();
+          // console.log(element, timeKey);
+
+          if (key[timeKey]) {
+            key[timeKey] = [...key[timeKey], element];
+          } else {
+            key[timeKey] = [element];
+          }
+
+          // console.log(new Date(element.date).getHours());
+        });
+
+        // console.log(key);
+        return key;
       }
       return state;
     default:

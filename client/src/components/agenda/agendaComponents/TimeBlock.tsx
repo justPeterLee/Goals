@@ -115,7 +115,7 @@ function Block(props: {
     >
       <div className={styles.blockTime}>
         <span className={styles.blockTimeText}>
-          {props.time.toLocaleString()}
+          {props.time.toLocaleString()} {props.position}
         </span>
       </div>
 
