@@ -1,10 +1,11 @@
 import styles from "../Agenda.module.css";
-import { TaskAgendaNote } from "./TaskNote";
+import { TaskAgendaNote } from "../../task/TaskNote";
 
 import { AddTaskModal } from "./AddTask";
 import { CalendarContext } from "../../../hook/calendar.context";
 
-import { useState, useContext } from "react";
+import { useAppSelector } from "../../../hook/redux.hook";
+import { useState, useContext, useEffect } from "react";
 import { format } from "date-fns";
 export function TimeBlock() {
   // time (12 - 12);
@@ -15,7 +16,11 @@ export function TimeBlock() {
   //      - importance
   //      - finished
 
+  const timeKey = useAppSelector((state) => state.agenda.agenda);
+  const [timeKeyState, setTimeKeyState] = useState(timeKey);
+
   const calenadarContext = useContext(CalendarContext);
+
   const [selectedBlock, setSelectedBlock] = useState(-2);
   const [toggleModal, setToggleModal] = useState(false);
 
@@ -45,6 +50,9 @@ export function TimeBlock() {
     setSelectedBlock(-2);
   };
 
+  useEffect(() => {
+    setTimeKeyState(timeKey);
+  }, [timeKey]);
   return (
     <div className={styles.timeBlockContainer}>
       <div
@@ -68,6 +76,7 @@ export function TimeBlock() {
         }
         const date = format(proxyDate, "EEEE',' LLLL e");
         // console.log(proxyDate);
+        const timeKeyUnit = timeKeyState[index] || [];
         return (
           <Block
             key={index}
@@ -77,6 +86,7 @@ export function TimeBlock() {
             time={time}
             date={date}
             selected={selectedBlock}
+            timeKey={timeKeyUnit}
           />
         );
       })}
@@ -98,13 +108,16 @@ function Block(props: {
   time: string | Date;
   date: string;
   selected: number;
+  timeKey: any;
 }) {
   // time lable
   // on click
+  // console.log(props.timeKey);
 
   const addTask = () => {
     props.onOpen(props.position);
   };
+
   return (
     <div
       className={styles.blockContainer}
@@ -131,8 +144,14 @@ function Block(props: {
           backgroundColor: "rgb(200,200,200)",
         }}
       />
-
-      <TaskAgendaNote />
+      <div className={styles.blockContext}>
+        {/* {JSON.stringify(props.timeKey)} */}
+        {/* <TaskAgendaNote />
+        <TaskAgendaNote /> */}
+        {props.timeKey.map((_task: any, index: number) => (
+          <TaskAgendaNote key={index} />
+        ))}
+      </div>
     </div>
   );
 }
