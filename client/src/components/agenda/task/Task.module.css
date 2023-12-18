@@ -1,0 +1,24 @@
+.taskNoteAgendaContainer {
+  padding: 0px 10px 0px 10px;
+  border-radius: 6px;
+  border: solid 1px white;
+  color: white;
+  background-color: #007fff;
+  width: 100%;
+}
+
+.taskTimeBlockContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 5px 0px 0px 0px;
+}
+
+.taskTimeBlockTask {
+  font-size: 13px;
+}
+
+.taskTimeBlockTime {
+  font-size: 12px;
+}

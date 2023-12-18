@@ -1,5 +1,5 @@
 import styles from "../Agenda.module.css";
-import { TaskAgendaNote } from "../../task/TaskNote";
+import { TaskAgendaNote } from "../task/TaskNote";
 
 import { AddTaskModal } from "./AddTask";
 import { CalendarContext } from "../../../hook/calendar.context";
@@ -149,7 +149,7 @@ function Block(props: {
         {/* <TaskAgendaNote />
         <TaskAgendaNote /> */}
         {props.timeKey.map((_task: any, index: number) => (
-          <TaskAgendaNote key={index} />
+          <TaskAgendaNote key={index} data={props.timeKey[index]} />
         ))}
       </div>
     </div>
