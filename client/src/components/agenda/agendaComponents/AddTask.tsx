@@ -180,7 +180,10 @@ export function AddTaskModal({
   );
 }
 
-function Backdrop(props: { children: ReactNode; close: () => void }) {
+export function Backdrop(props: {
+  children: ReactNode;
+  close: (e?: any) => void;
+}) {
   // makes child element only clickable
 
   return (
