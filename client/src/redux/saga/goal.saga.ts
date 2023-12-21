@@ -14,6 +14,7 @@ const config = {
 };
 
 // saga function
+
 function* fetchGoals({ payload }: any): Generator {
   try {
     console.log(payload);
@@ -40,7 +41,7 @@ function* putTaskCompletion({ payload }: any): Generator {
   try {
     console.log("sage task completion", payload);
     yield axios.put("/api/v1/goal/completion", payload);
-
+    yield put({ type: "GET_TASK", payload: payload.date });
     // yield put({})
   } catch (err) {
     console.log(err);

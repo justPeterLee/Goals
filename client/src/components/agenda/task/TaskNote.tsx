@@ -62,9 +62,19 @@ export function TaskAgendaNoteModal(props: {
 
   const toggleTaskCompletion = () => {
     console.log("complete task");
+    const date = new Date(props.data.date);
     dispatch({
       type: "PUT_TASK_COMPLETION",
-      payload: { id: props.data.id, status: !props.data.completion },
+      payload: {
+        id: props.data.id,
+        status: !props.data.completion,
+        date: {
+          date: date.getDate(),
+          month: date.getMonth() + 1,
+          year: date.getFullYear(),
+          fullDate: date,
+        },
+      },
     });
   };
   if (!portalRoot) {

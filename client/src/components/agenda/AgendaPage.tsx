@@ -23,6 +23,7 @@ export default function AgendaPage() {
 
   useEffect(() => {
     const newDate: any = calendarContext?.manualAgenda(proxyParams);
+    // console.log(newDate);
 
     dispatch({
       type: "GET_TASK",
@@ -31,6 +32,8 @@ export default function AgendaPage() {
         fullDate: newDate.date,
       },
     });
+
+    console.log(calendarContext);
   }, [navigate]);
 
   if (reduxTask.agenda === null) {

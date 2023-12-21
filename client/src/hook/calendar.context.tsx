@@ -78,7 +78,6 @@ export default function CalendarContextProvider({
     } else {
       setAgendaDate(useAgenda(undefined));
     }
-
     return newAgenda;
   }
 
@@ -87,9 +86,11 @@ export default function CalendarContextProvider({
       value={{
         resetDay,
         generateCurrentDate,
-        currentMonth,
+
         manualMonth,
         manualAgenda,
+
+        currentMonth,
         currentAgenda: agendaDate,
       }}
     >
