@@ -3,9 +3,8 @@ import { format } from "date-fns";
 import ReactDOM from "react-dom";
 import { useState } from "react";
 import { Backdrop } from "../agendaComponents/AddTask";
-
-import x from "../../../media/x.png";
-
+import { useCompleteTask } from "../../../hook/useTaskServer.hook";
+import { useAppDispatch } from "../../../hook/redux.hook";
 export function TaskAgendaNote(props: { data: any }) {
   const date = new Date(props.data.date);
   const currTime = format(date, "h:mmaa");
@@ -56,8 +55,18 @@ export function TaskAgendaNoteModal(props: {
   date: Date;
   time: { currTime: string; follTime: string };
 }) {
+  const dispatch = useAppDispatch();
+
   const portalRoot = document.getElementById("portal-modal");
   const dateFormat = format(props.date, "EEEE, LLLL");
+
+  const toggleTaskCompletion = () => {
+    console.log("complete task");
+    dispatch({
+      type: "PUT_TASK_COMPLETION",
+      payload: { id: props.data.id, status: !props.data.completion },
+    });
+  };
   if (!portalRoot) {
     return <div>Portal root not found!</div>;
   }
@@ -106,7 +115,13 @@ export function TaskAgendaNoteModal(props: {
         )}
         <div className={styles.taskModalButton}>
           <button>edit</button>
-          <button>complete</button>
+          <button
+            onClick={() => {
+              toggleTaskCompletion();
+            }}
+          >
+            {props.data.completion ? "uncomplete" : "complete"}
+          </button>
         </div>
 
         <button
