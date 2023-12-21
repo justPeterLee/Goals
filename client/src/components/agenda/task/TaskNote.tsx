@@ -71,7 +71,15 @@ export function TaskAgendaNoteModal(props: {
         }}
       >
         <div className={styles.taskModalTitle}>
-          <p className={styles.taskLabel}>task</p>
+          <span className={styles.taskLabelContainer}>
+            <p className={styles.taskLabel}>task</p>
+            <p
+              className={styles.taskStatus}
+              style={{ color: props.data.completion ? "green" : "red" }}
+            >
+              {props.data.completion ? "completed" : "uncompleted"}
+            </p>
+          </span>
           <p className={styles.taskTitle}>{props.data.task}</p>
         </div>
 
