@@ -18,8 +18,9 @@ button {
   padding: 0.6em 1.2em;
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color backgroundColor 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
@@ -83,4 +84,16 @@ p {
   background-color: #1b66c9;
   color: white;
   font-weight: 400;
+}
+
+.closeButton {
+  background-color: white;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.closeButton:hover {
+  outline: none;
+  background-color: rgb(245, 245, 245);
 }

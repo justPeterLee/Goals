@@ -3,6 +3,9 @@ import { format } from "date-fns";
 import ReactDOM from "react-dom";
 import { useState } from "react";
 import { Backdrop } from "../agendaComponents/AddTask";
+
+import x from "../../../media/x.png";
+
 export function TaskAgendaNote(props: { data: any }) {
   const date = new Date(props.data.date);
   const currTime = format(date, "h:mmaa");
@@ -39,6 +42,8 @@ export function TaskAgendaNote(props: { data: any }) {
             setShowDescription(false);
           }}
           data={props.data}
+          date={date}
+          time={{ currTime, follTime }}
         />
       )}
     </>
@@ -48,16 +53,63 @@ export function TaskAgendaNote(props: { data: any }) {
 export function TaskAgendaNoteModal(props: {
   onClose: (e: any) => void;
   data: any;
+  date: Date;
+  time: { currTime: string; follTime: string };
 }) {
   const portalRoot = document.getElementById("portal-modal");
-
+  const dateFormat = format(props.date, "EEEE, LLLL");
   if (!portalRoot) {
     return <div>Portal root not found!</div>;
   }
 
   return ReactDOM.createPortal(
     <Backdrop close={props.onClose}>
-      <p>task description</p>
+      <div
+        className={styles.taskModalContainer}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <div className={styles.taskModalTitle}>
+          <p className={styles.taskLabel}>task</p>
+          <p className={styles.taskTitle}>{props.data.task}</p>
+        </div>
+
+        <div className={styles.taskModalDate}>
+          <p>{dateFormat}</p>
+          <div
+            style={{
+              height: "2px",
+              width: "2px",
+              backgroundColor: "rgb(50,50,50)",
+              borderRadius: "100px",
+            }}
+          ></div>
+          <p>{`${props.time.currTime} - ${props.time.follTime}`}</p>
+        </div>
+
+        {props.data.description ? (
+          <div className={styles.taskDescriptionContainer}>
+            <p className={styles.taskLabel}>description</p>
+            <p className={styles.taskDescription}>{props.data.description}</p>
+          </div>
+        ) : (
+          <></>
+        )}
+        <div className={styles.taskModalButton}>
+          <button>edit</button>
+          <button>complete</button>
+        </div>
+
+        <button
+          className="closeButton"
+          onClick={(e) => {
+            props.onClose(e);
+          }}
+        >
+          x
+        </button>
+      </div>
     </Backdrop>,
     portalRoot
   );
