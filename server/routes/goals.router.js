@@ -35,7 +35,6 @@ router.post("/task", (req, res) => {
 });
 
 router.put("/completion", (req, res) => {
-  console.log(req.body);
   const { id, status } = req.body;
   const query = `
     UPDATE agenda SET completion = $1 WHERE id = $2;

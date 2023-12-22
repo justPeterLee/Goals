@@ -1,5 +1,6 @@
 /* global css */
-:root {
+:root,
+textarea {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 

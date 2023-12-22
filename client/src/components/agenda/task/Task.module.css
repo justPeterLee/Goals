@@ -112,3 +112,79 @@
   margin-left: 5px;
   font-size: 15px;
 }
+
+.taskModalEditContainer {
+  width: 30rem;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 5px;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+}
+
+.taskEditTitleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskEditTitle {
+  margin-top: 0.5rem;
+  font-size: 25px;
+  border: none;
+  /* outline: #007fff; */
+}
+.taskEditTitleLine {
+  transition: backgroundColor 0.3s ease;
+  height: 0.1px;
+  width: 100%;
+  background-color: rgb(200, 200, 200);
+}
+
+.taskEditTitle:focus ~ .taskEditTitleLine {
+  background-color: #007fff;
+}
+.taskEditTitle:focus {
+  outline: none;
+}
+
+.taskEditDateContainer {
+  display: flex;
+  align-items: center;
+}
+
+.taskEditDescriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.taskEditDescriptionContainer textarea {
+  height: 5rem;
+  resize: none;
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(235, 235, 235);
+
+  font-size: 15px;
+}
+
+.taskEditDescriptionContainer textarea:focus {
+  outline: #007fff solid 2px;
+  /* border: solid 0.05px #007fff; */
+}
+
+.taskEditButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

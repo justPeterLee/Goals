@@ -3,7 +3,6 @@ import { format } from "date-fns";
 import ReactDOM from "react-dom";
 import { useState } from "react";
 import { Backdrop } from "../agendaComponents/AddTask";
-import { useCompleteTask } from "../../../hook/useTaskServer.hook";
 import { useAppDispatch } from "../../../hook/redux.hook";
 export function TaskAgendaNote(props: { data: any }) {
   const date = new Date(props.data.date);
@@ -14,7 +13,6 @@ export function TaskAgendaNote(props: { data: any }) {
 
   const toggleDescription = () => {
     setShowDescription(() => true);
-    console.log(showDescription);
   };
   return (
     <>
@@ -35,7 +33,7 @@ export function TaskAgendaNote(props: { data: any }) {
       </div>
 
       {showDescription && (
-        <TaskAgendaNoteModal
+        <TaskModal
           onClose={(e: any) => {
             e.stopPropagation();
             setShowDescription(false);
@@ -51,17 +49,15 @@ export function TaskAgendaNote(props: { data: any }) {
 
 export function TaskAgendaNoteModal(props: {
   onClose: (e: any) => void;
+  editToggle: () => void;
   data: any;
   date: Date;
   time: { currTime: string; follTime: string };
 }) {
   const dispatch = useAppDispatch();
-
-  const portalRoot = document.getElementById("portal-modal");
-  const dateFormat = format(props.date, "EEEE, LLLL");
+  const dateFormat = format(props.date, "EEEE, LLLL  d");
 
   const toggleTaskCompletion = () => {
-    console.log("complete task");
     const date = new Date(props.data.date);
     dispatch({
       type: "PUT_TASK_COMPLETION",
@@ -77,72 +73,189 @@ export function TaskAgendaNoteModal(props: {
       },
     });
   };
+
+  return (
+    <div
+      className={styles.taskModalContainer}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <div className={styles.taskModalTitle}>
+        <span className={styles.taskLabelContainer}>
+          <p className={styles.taskLabel}>task</p>
+          <p
+            className={styles.taskStatus}
+            style={{ color: props.data.completion ? "green" : "red" }}
+          >
+            {props.data.completion ? "completed" : "uncompleted"}
+          </p>
+        </span>
+        <p className={styles.taskTitle}>{props.data.task}</p>
+      </div>
+
+      <div className={styles.taskModalDate}>
+        <p>{dateFormat}</p>
+        <div
+          style={{
+            height: "2px",
+            width: "2px",
+            backgroundColor: "rgb(50,50,50)",
+            borderRadius: "100px",
+          }}
+        ></div>
+        <p>{`${props.time.currTime} - ${props.time.follTime}`}</p>
+      </div>
+
+      {props.data.description ? (
+        <div className={styles.taskDescriptionContainer}>
+          <p className={styles.taskLabel}>description</p>
+          <p className={styles.taskDescription}>{props.data.description}</p>
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className={styles.taskModalButton}>
+        <button
+          onClick={() => {
+            props.editToggle();
+          }}
+        >
+          edit
+        </button>
+        <button
+          onClick={() => {
+            toggleTaskCompletion();
+          }}
+        >
+          {props.data.completion ? "uncomplete" : "complete"}
+        </button>
+      </div>
+
+      <button
+        className="closeButton"
+        onClick={(e) => {
+          props.onClose(e);
+        }}
+      >
+        x
+      </button>
+    </div>
+  );
+}
+
+function TaskModalEdit(props: {
+  onClose: (e: any) => void;
+  editToggle: () => void;
+  data: any;
+  date: Date;
+  time: { currTime: string; follTime: string };
+}) {
+  return (
+    <div
+      className={styles.taskModalEditContainer}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <div className={styles.taskEditTitleContainer}>
+        <span className={styles.taskLabelContainer}>
+          <p className={styles.taskLabel}>task</p>
+          {/* <p
+            className={styles.taskStatus}
+            style={{ color: props.data.completion ? "green" : "red" }}
+          >
+            {props.data.completion ? "completed" : "uncompleted"}
+          </p> */}
+        </span>
+        <span>
+          <input className={styles.taskEditTitle} placeholder="Add Title" />
+          <div className={styles.taskEditTitleLine} />
+        </span>
+      </div>
+
+      <div className={styles.taskModalDate}>
+        <p>date</p>
+        <div
+          style={{
+            height: "2px",
+            width: "2px",
+            backgroundColor: "rgb(50,50,50)",
+            borderRadius: "100px",
+          }}
+        ></div>
+        <p>date</p>
+      </div>
+
+      <div className={styles.taskEditDescriptionContainer}>
+        <span className={styles.taskLabel}>description</span>
+        <textarea placeholder="Add Description" />
+      </div>
+
+      <div className={styles.taskEditButtonContainer}>
+        <button>delete</button>
+        <button
+          onClick={() => {
+            props.editToggle();
+          }}
+        >
+          save
+        </button>
+      </div>
+
+      <button
+        className="closeButton"
+        onClick={(e) => {
+          props.onClose(e);
+        }}
+      >
+        x
+      </button>
+    </div>
+  );
+}
+
+function TaskModal(props: {
+  onClose: (e: any) => void;
+  data: any;
+  date: Date;
+  time: { currTime: string; follTime: string };
+}) {
+  const portalRoot = document.getElementById("portal-modal");
+
+  const [editModeState, setEditModeState] = useState(false);
+
+  const editOn = () => {
+    setEditModeState(true);
+  };
+
+  const editOff = () => {
+    setEditModeState(false);
+  };
+
   if (!portalRoot) {
     return <div>Portal root not found!</div>;
   }
 
   return ReactDOM.createPortal(
     <Backdrop close={props.onClose}>
-      <div
-        className={styles.taskModalContainer}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <div className={styles.taskModalTitle}>
-          <span className={styles.taskLabelContainer}>
-            <p className={styles.taskLabel}>task</p>
-            <p
-              className={styles.taskStatus}
-              style={{ color: props.data.completion ? "green" : "red" }}
-            >
-              {props.data.completion ? "completed" : "uncompleted"}
-            </p>
-          </span>
-          <p className={styles.taskTitle}>{props.data.task}</p>
-        </div>
-
-        <div className={styles.taskModalDate}>
-          <p>{dateFormat}</p>
-          <div
-            style={{
-              height: "2px",
-              width: "2px",
-              backgroundColor: "rgb(50,50,50)",
-              borderRadius: "100px",
-            }}
-          ></div>
-          <p>{`${props.time.currTime} - ${props.time.follTime}`}</p>
-        </div>
-
-        {props.data.description ? (
-          <div className={styles.taskDescriptionContainer}>
-            <p className={styles.taskLabel}>description</p>
-            <p className={styles.taskDescription}>{props.data.description}</p>
-          </div>
-        ) : (
-          <></>
-        )}
-        <div className={styles.taskModalButton}>
-          <button>edit</button>
-          <button
-            onClick={() => {
-              toggleTaskCompletion();
-            }}
-          >
-            {props.data.completion ? "uncomplete" : "complete"}
-          </button>
-        </div>
-
-        <button
-          className="closeButton"
-          onClick={(e) => {
-            props.onClose(e);
-          }}
-        >
-          x
-        </button>
-      </div>
+      {editModeState ? (
+        <TaskModalEdit
+          editToggle={editOff}
+          onClose={props.onClose}
+          data={props.data}
+          date={props.date}
+          time={props.time}
+        />
+      ) : (
+        <TaskAgendaNoteModal
+          onClose={props.onClose}
+          editToggle={editOn}
+          data={props.data}
+          date={props.date}
+          time={props.time}
+        />
+      )}
     </Backdrop>,
     portalRoot
   );
