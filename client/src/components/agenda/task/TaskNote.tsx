@@ -151,6 +151,24 @@ function TaskModalEdit(props: {
   date: Date;
   time: { currTime: string; follTime: string };
 }) {
+  const dateFormat = format(props.date, "EEEE, LLLL  d");
+
+  const [newTaskValue, setNewTaskValue] = useState({
+    title: props.data.task,
+    description: props.data.description,
+  });
+
+  const [errorValue, setErrorValue] = useState({
+    title: false,
+  });
+  const validateNewTask = () => {
+    if (newTaskValue.title.replace(/\s+/g, "") === "") {
+      setErrorValue({ ...errorValue, title: true });
+    } else {
+      setErrorValue({ ...errorValue, title: false });
+      props.editToggle();
+    }
+  };
   return (
     <div
       className={styles.taskModalEditContainer}
@@ -169,13 +187,23 @@ function TaskModalEdit(props: {
           </p> */}
         </span>
         <span>
-          <input className={styles.taskEditTitle} placeholder="Add Title" />
-          <div className={styles.taskEditTitleLine} />
+          <input
+            className={styles.taskEditTitle}
+            placeholder="Add Title"
+            value={newTaskValue.title}
+            onChange={(e) => {
+              setNewTaskValue({ ...newTaskValue, title: e.target.value });
+            }}
+          />
+          <div
+            className={styles.taskEditTitleLine}
+            style={errorValue.title ? { backgroundColor: "red" } : {}}
+          />
         </span>
       </div>
 
       <div className={styles.taskModalDate}>
-        <p>date</p>
+        <p>{dateFormat}</p>
         <div
           style={{
             height: "2px",
@@ -184,19 +212,25 @@ function TaskModalEdit(props: {
             borderRadius: "100px",
           }}
         ></div>
-        <p>date</p>
+        <p>{`${props.time.currTime} - ${props.time.follTime}`}</p>
       </div>
 
       <div className={styles.taskEditDescriptionContainer}>
         <span className={styles.taskLabel}>description</span>
-        <textarea placeholder="Add Description" />
+        <textarea
+          placeholder="Add Description"
+          value={newTaskValue.description}
+          onChange={(e) => {
+            setNewTaskValue({ ...newTaskValue, description: e.target.value });
+          }}
+        />
       </div>
 
       <div className={styles.taskEditButtonContainer}>
         <button>delete</button>
         <button
           onClick={() => {
-            props.editToggle();
+            validateNewTask();
           }}
         >
           save
