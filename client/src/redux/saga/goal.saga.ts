@@ -8,6 +8,8 @@ export default function* goalSage() {
 
   yield takeLatest("PUT_TASK_COMPLETION", putTaskCompletion);
   yield takeLatest("PUT_TASK", putTask);
+
+  yield takeLatest("DELETE_TASK", deleteTask);
 }
 
 const config = {
@@ -52,6 +54,17 @@ function* putTask({ payload }: any): Generator {
   try {
     console.log("change task saga ", payload);
     yield axios.put("/api/v1/goal/update/task", payload);
+    yield put({ type: "GET_TASK", payload: payload.date });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* deleteTask({ payload }: any): Generator {
+  try {
+    console.log("delete task saga", payload);
+
+    yield axios.delete(`/api/v1/goal/delete/${payload.id}`);
     yield put({ type: "GET_TASK", payload: payload.date });
   } catch (err) {
     console.log(err);
