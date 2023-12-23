@@ -4,7 +4,7 @@ const router = express.Router();
 require("dotenv").config();
 
 router.get("/:date", (req, res) => {
-  console.log(req.params);
+  // console.log(req.params);
   // const date = {}
   const query = "SELECT * FROM agenda WHERE DATE(date) = $1;";
 
@@ -36,7 +36,20 @@ router.post("/task", (req, res) => {
 
 router.put("/update/task", (req, res) => {
   console.log(req.body);
-  res.sendStatus(200);
+  const { title, description, id } = req.body;
+  const query = `
+    UPDATE agenda SET task = $1, description = $2 WHERE id = $3; 
+  `;
+  pool
+    .query(query, [title, description, id])
+    .then((result) => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log("ERROR: updating task ", err);
+      res.sendStatus(500);
+    });
+  // res.sendStatus(200);
 });
 
 router.put("/completion", (req, res) => {

@@ -174,6 +174,7 @@ function TaskModalEdit(props: {
         type: "PUT_TASK",
         payload: {
           ...newTaskValue,
+          id: props.data.id,
           date: {
             date: date.getDate(),
             month: date.getMonth() + 1,
