@@ -51,6 +51,7 @@ function* putTaskCompletion({ payload }: any): Generator {
 function* putTask({ payload }: any): Generator {
   try {
     console.log("change task saga ", payload);
+    yield axios.put("/api/v1/goal/update/task", payload);
   } catch (err) {
     console.log(err);
   }

@@ -34,6 +34,11 @@ router.post("/task", (req, res) => {
   // res.sendStatus(200);
 });
 
+router.put("/update/task", (req, res) => {
+  console.log(req.body);
+  res.sendStatus(200);
+});
+
 router.put("/completion", (req, res) => {
   const { id, status } = req.body;
   const query = `
