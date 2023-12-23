@@ -21,6 +21,57 @@ export default function AgendaPage() {
     year: params.year || "",
   };
 
+  const backToCalendar = () => {
+    navigate(`/calendar/${agenda.full.year}/${agenda.fullNum.month}`);
+  };
+
+  const changeDay = (direction: number) => {
+    // console.log(agenda);
+    // go to next day
+    // check day => new month
+    // check month => new year
+
+    //check current month to see limiters
+    //  - check if over steping limiters
+
+    // change month if ness
+    //  - check for year limiter
+    const month = agenda.month;
+    const currentDate = agenda.fullNum;
+
+    const newURL = {
+      date: agenda.fullNum.date + direction,
+      month: agenda.fullNum.month,
+      year: agenda.fullNum.year,
+    };
+
+    if (currentDate.date + direction > month.month.days) {
+      console.log("new Month");
+      newURL.date = 1;
+
+      //new month
+      if (newURL.month + 1 > 12) {
+        //new year
+        newURL.month = 1;
+        newURL.year += 1;
+      } else {
+        newURL.month += 1;
+      }
+    } else if (currentDate.date + direction < 1) {
+      console.log("old Month");
+      newURL.date = month.previous.days;
+
+      if (newURL.month - 1 < 1) {
+        newURL.month = 12;
+        newURL.year -= 1;
+      } else {
+        newURL.month -= 1;
+      }
+    }
+
+    navigate(`/agenda/${newURL.year}/${newURL.month}/${newURL.date}`);
+  };
+
   useEffect(() => {
     const newDate: any = calendarContext?.manualAgenda(proxyParams);
     // console.log(newDate);
@@ -46,6 +97,30 @@ export default function AgendaPage() {
         {agenda.full.day} - {agenda.full.month} {agenda.fullNum.date},{" "}
         {agenda.fullNum.year}
       </p>
+      <button
+        onClick={() => {
+          backToCalendar();
+        }}
+      >
+        back
+      </button>
+
+      <div>
+        <button
+          onClick={() => {
+            changeDay(-1);
+          }}
+        >
+          prev
+        </button>
+        <button
+          onClick={() => {
+            changeDay(1);
+          }}
+        >
+          next
+        </button>
+      </div>
       <TimeBlock />
     </>
   );
