@@ -151,6 +151,8 @@ function TaskModalEdit(props: {
   date: Date;
   time: { currTime: string; follTime: string };
 }) {
+  const dispatch = useAppDispatch();
+
   const dateFormat = format(props.date, "EEEE, LLLL  d");
 
   const [newTaskValue, setNewTaskValue] = useState({
@@ -166,6 +168,7 @@ function TaskModalEdit(props: {
       setErrorValue({ ...errorValue, title: true });
     } else {
       setErrorValue({ ...errorValue, title: false });
+      dispatch({ type: "PUT_TASK", payload: newTaskValue });
       props.editToggle();
     }
   };

@@ -7,6 +7,7 @@ export default function* goalSage() {
   yield takeLatest("POST_TASK", postGoal);
 
   yield takeLatest("PUT_TASK_COMPLETION", putTaskCompletion);
+  yield takeLatest("PUT_TASK", putTask);
 }
 
 const config = {
@@ -42,6 +43,14 @@ function* putTaskCompletion({ payload }: any): Generator {
     yield axios.put("/api/v1/goal/completion", payload);
     yield put({ type: "GET_TASK", payload: payload.date });
     // yield put({})
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* putTask({ payload }: any): Generator {
+  try {
+    console.log("change task saga ", payload);
   } catch (err) {
     console.log(err);
   }
