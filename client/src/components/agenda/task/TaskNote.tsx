@@ -167,8 +167,21 @@ function TaskModalEdit(props: {
     if (newTaskValue.title.replace(/\s+/g, "") === "") {
       setErrorValue({ ...errorValue, title: true });
     } else {
+      const date = new Date(props.data.date);
+
       setErrorValue({ ...errorValue, title: false });
-      dispatch({ type: "PUT_TASK", payload: newTaskValue });
+      dispatch({
+        type: "PUT_TASK",
+        payload: {
+          ...newTaskValue,
+          date: {
+            date: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear(),
+            fullDate: date,
+          },
+        },
+      });
       props.editToggle();
     }
   };
