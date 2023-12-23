@@ -228,3 +228,42 @@ export function useValidDate(manual: {
 
   return validDate;
 }
+
+export function useErrorDate(manual: {
+  date: string;
+  month: string;
+  year: string;
+}) {
+  const validDate = manual ? manual : { date: "0", month: "0", year: "0" };
+  const errorDate = { date: false, month: false, year: false };
+
+  if (manual) {
+    if (parseInt(manual.month) > 12) {
+      validDate.month = "12";
+      errorDate.month = true;
+    } else if (parseInt(manual.month) < 1) {
+      validDate.month = "1";
+      errorDate.month = true;
+    }
+
+    if (parseInt(manual.year) < 2020) {
+      validDate.year = "2020";
+      errorDate.year = true;
+    }
+
+    const validDays = monthConverter(
+      parseInt(validDate.month) - 1,
+      parseInt(validDate.year)
+    ).month.days;
+
+    if (parseInt(manual.date) > validDays) {
+      validDate.date = validDays.toString();
+      errorDate.date = true;
+    } else if (parseInt(manual.date) < 1) {
+      validDate.date = "1";
+      errorDate.date = true;
+    }
+  }
+
+  return errorDate;
+}

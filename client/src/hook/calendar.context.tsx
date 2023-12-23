@@ -1,5 +1,10 @@
 import { createContext, ReactNode, useState } from "react";
-import { useCalendar, useAgenda } from "./useCalendar.hook";
+import {
+  useCalendar,
+  useAgenda,
+  useValidDate,
+  useErrorDate,
+} from "./useCalendar.hook";
 import { useNavigate } from "react-router-dom";
 
 interface CalendarContextType {
@@ -72,12 +77,22 @@ export default function CalendarContextProvider({
 
   function manualAgenda(manual: { date: string; month: string; year: string }) {
     let newAgenda = useAgenda(undefined);
+    const errorDate = useErrorDate(manual);
+
+    const validDate = useValidDate(manual);
+
+    if (errorDate.date || errorDate.month || errorDate.year) {
+      navigate(
+        `/agenda/${validDate.year}/${validDate.month}/${validDate.date}`
+      );
+    }
     if (manual.month && manual.date && manual.year) {
-      newAgenda = useAgenda(manual);
-      setAgendaDate(() => newAgenda);
+      newAgenda = useAgenda(validDate);
+      setAgendaDate(() => useAgenda(validDate));
     } else {
       setAgendaDate(useAgenda(undefined));
     }
+
     return newAgenda;
   }
 

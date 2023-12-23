@@ -33,7 +33,7 @@ export default function AgendaPage() {
       },
     });
 
-    console.log(calendarContext);
+    // console.log(calendarContext);
   }, [navigate]);
 
   if (reduxTask.agenda === null) {
