@@ -67,4 +67,21 @@ router.put("/completion", (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const query = `
+    DELETE FROM "agenda" WHERE "id" = $1;
+  `;
+
+  pool
+    .query(query, [id])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log("ERROR: deleting task");
+      res.sendStatus(500);
+    });
+});
 module.exports = router;
