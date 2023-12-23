@@ -186,6 +186,23 @@ function TaskModalEdit(props: {
       props.editToggle();
     }
   };
+
+  const deleteTask = () => {
+    const date = new Date(props.data.date);
+
+    dispatch({
+      type: "DELETE_TASK",
+      payload: {
+        id: props.data.id,
+        date: {
+          date: date.getDate(),
+          month: date.getMonth() + 1,
+          year: date.getFullYear(),
+          fullDate: date,
+        },
+      },
+    });
+  };
   return (
     <div
       className={styles.taskModalEditContainer}
@@ -244,7 +261,13 @@ function TaskModalEdit(props: {
       </div>
 
       <div className={styles.taskEditButtonContainer}>
-        <button>delete</button>
+        <button
+          onClick={() => {
+            deleteTask();
+          }}
+        >
+          delete
+        </button>
         <button
           onClick={() => {
             validateNewTask();
