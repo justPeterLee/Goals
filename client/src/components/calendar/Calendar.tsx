@@ -16,6 +16,21 @@ export default function Calendar() {
     year: params.year || "",
   };
 
+  const changeMonth = (direction: number) => {
+    const currentMonth = calenadarContext!.currentMonth.current.month + 1;
+    const currentYear = calenadarContext!.currentMonth.current.year;
+    const newURL = { month: currentMonth + direction, year: currentYear };
+
+    if (newURL.month > 12) {
+      newURL.month = 1;
+      newURL.year += 1;
+    } else if (newURL.month < 1) {
+      newURL.month = 12;
+      newURL.year -= 1;
+    }
+
+    navigate(`/calendar/${newURL.year}/${newURL.month}`);
+  };
   useEffect(() => {
     calenadarContext?.manualMonth(proxyParms);
   }, [navigate]);
@@ -24,18 +39,14 @@ export default function Calendar() {
     <div className={`${styles.calendarContainer} container`}>
       <button
         onClick={() => {
-          navigate(
-            `/calendar/2023/${calenadarContext!.currentMonth.current.month}`
-          );
+          changeMonth(-1);
         }}
       >
         prev
       </button>
       <button
         onClick={() => {
-          navigate(
-            `/calendar/2023/${calenadarContext!.currentMonth.current.month + 2}`
-          );
+          changeMonth(1);
         }}
       >
         next
