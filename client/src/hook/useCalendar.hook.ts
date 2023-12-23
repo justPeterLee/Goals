@@ -151,8 +151,36 @@ export function useAgenda(
    * }
    *  */
   // console.log(manual);
+
+  // if date is larger or smaller
+  // if month is larger or smaller
+  const validDate = manual ? manual : { date: "0", month: "0", year: "0" };
+
+  if (manual) {
+    if (parseInt(manual.month) > 12) {
+      validDate.month = "12";
+    } else if (parseInt(manual.month) < 1) {
+      validDate.month = "1";
+    }
+
+    if (parseInt(manual.year) < 2020) {
+      validDate.year = "2020";
+    }
+
+    const validDays = monthConverter(
+      parseInt(validDate.month) - 1,
+      parseInt(validDate.year)
+    ).month.days;
+
+    if (parseInt(manual.date) > validDays) {
+      validDate.date = validDays.toString();
+    } else if (parseInt(manual.date) < 1) {
+      validDate.date = "1";
+    }
+  }
+
   const newDate = manual
-    ? new Date(`${manual.month} ${manual.date} ${manual.year}`)
+    ? new Date(`${validDate.month} ${manual.date} ${manual.year}`)
     : new Date();
 
   // newDate.setHours(0, 0, 0, 0);
