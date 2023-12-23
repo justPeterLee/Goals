@@ -1,7 +1,7 @@
 import styles from "./Calendar.module.css";
 
 import { CalendarContext } from "../../hook/calendar.context";
-import { useGenerateDate, useDateConvert } from "../../hook/useCalendar.hook";
+import { useGenerateDate } from "../../hook/useCalendar.hook";
 
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useContext } from "react";
@@ -74,7 +74,7 @@ function Day(props: {
   dayOffset: number;
 }) {
   // const { day, index, row } = props.position;
-  const { dayPos, dayOffset, date, month } = props;
+  const { dayPos, dayOffset, date } = props;
 
   // const dateConvert = useDateConvert(date);
 
